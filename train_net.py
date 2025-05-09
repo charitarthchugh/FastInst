@@ -57,6 +57,7 @@ from fastinst import (
     add_fastinst_config,
 )
 
+import wandb # Import wandb
 
 class Trainer(DefaultTrainer):
     """
@@ -290,6 +291,15 @@ def setup(args):
 
 def main(args):
     cfg = setup(args)
+    torch.set_float32_matmul_precision('high')
+    # Initialize wandb here
+    if comm.is_main_process(): # Initialize only on the main process
+        # Extract config file name
+        config_name = os.path.basename(args.config_file)
+        wandb.init(project="fastinst-training", sync_tensorboard=True, name=config_name, job_type='training',
+                   group='r18-cityscapes') # Use
+        # config_name for run
+        # name
 
     if args.eval_only:
         model = Trainer.build_model(cfg)
