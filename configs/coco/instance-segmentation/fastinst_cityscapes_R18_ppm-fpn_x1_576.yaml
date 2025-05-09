@@ -1,0 +1,12 @@
+_BASE_: Fast-COCO-InstanceSegmentation.yaml
+MODEL:
+  WEIGHTS: "pretrained_models/R-18.pkl"
+  BACKBONE:
+    NAME: "build_resnet_backbone"
+  RESNETS:
+    DEPTH: 18
+    RES2_OUT_CHANNELS: 64
+INPUT:
+  MIN_SIZE_TEST: 576
+  MAX_SIZE_TEST: 777
+OUTPUT_DIR: "output/fastinst_r18_ppm-fpn_bs16_50ep_x1_576"
