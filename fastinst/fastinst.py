@@ -67,8 +67,8 @@ class FastInst(nn.Module):
             test_topk_per_image: int, instance segmentation parameter, keep topk instances per image
         """
         super().__init__()
-        self.backbone = backbone
-        self.sem_seg_head = sem_seg_head
+        self.backbone = torch.compile(backbone, mode='max-autotune-no-cudagraphs', fullgraph=True)
+        self.sem_seg_head = torch.compile(sem_seg_head)
         self.criterion = criterion
         self.num_queries = num_queries
         self.overlap_threshold = overlap_threshold
