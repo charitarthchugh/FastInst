@@ -8,7 +8,7 @@ import torch.nn.functional as F
 from detectron2.projects.point_rend.point_features import point_sample
 from scipy.optimize import linear_sum_assignment
 from torch import nn
-from torch.cuda.amp import autocast
+from torch.amp import autocast
 
 
 def batch_dice_loss(inputs: torch.Tensor, targets: torch.Tensor):
@@ -138,7 +138,7 @@ class HungarianMatcher(nn.Module):
                 align_corners=False,
             ).squeeze(0)
 
-            with autocast(enabled=False):
+            with autocast('cuda',enabled=False):
                 out_mask = out_mask.float()
                 tgt_mask = tgt_mask.float()
                 # Compute the focal loss between masks
